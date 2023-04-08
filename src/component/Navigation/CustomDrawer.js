@@ -103,7 +103,7 @@ const CustomDrawer = (props) => {
   };
   return (
     <DrawerContentScrollView {...props}>
- <View style={{ justifyContent:"flex-end", alignItems:"center"}}>
+ <View style={{ flex:1,justifyContent:"flex-end", alignItems:"center"}}>
        <TouchableOpacity onPress={()=>Signout()} style={{ backgroundColor:"#2E2F41",padding:15,paddingLeft:45,marginTop:50, paddingRight:45}}>
       <Text style={{color:"white", fontSize:14, fontWeight:"700"}}> Sign Out </Text>
     </TouchableOpacity>
