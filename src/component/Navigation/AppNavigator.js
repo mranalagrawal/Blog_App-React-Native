@@ -12,13 +12,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Category from '../pages/Category';
 import UserBlogs from '../pages/UserBlogs';
 import Profile from '../pages/Profile';
-import auth from '@react-native-firebase/auth'
+import auth from '@react-native-firebase/auth';
 import Details from '../pages/Details';
 import CategoryDetails from '../pages/CategoryDetails';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import CustomDrawer from './CustomDrawer';
-
-
 
 const AppNavigator = () => {
   // navigation
@@ -26,35 +24,30 @@ const AppNavigator = () => {
   const bottomTab = createBottomTabNavigator();
   const Drawer = createDrawerNavigator();
 
-  const [loggedin, setLoggedin] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [loggedin, setLoggedin] = useState(false);
+  const [loading, setLoading] = useState(false);
 
+  // Drawer Navigation
 
-// Drawer Navigation
-
-
-function MyDrawer() {
-  return (
-    <Drawer.Navigator drawerContent={props=> <CustomDrawer {...props}/>}>
-      <Drawer.Screen name="Profile" component={Profile}  />
-    </Drawer.Navigator>
-  );
-}
-
+  function MyDrawer() {
+    return (
+      <Drawer.Navigator drawerContent={props => <CustomDrawer {...props} />}>
+        <Drawer.Screen name="Profile" component={Profile} />
+      </Drawer.Navigator>
+    );
+  }
 
   // Tab Navigation
   function BottomTabs() {
     return (
       <bottomTab.Navigator
         screenOptions={({route}) => ({
-         
-          tabBarActiveTintColor: "white",
-  tabBarInactiveTintColor: "white",
-  tabBarShowLabel: false,
-          tabBarStyle:{
-            backgroundColor:'#2E2F41',
-            height:70,
-        
+          tabBarActiveTintColor: 'white',
+          tabBarInactiveTintColor: 'white',
+          tabBarShowLabel: false,
+          tabBarStyle: {
+            backgroundColor: '#2E2F41',
+            height: 70,
           },
           tabBarIcon: ({focused, size, color}) => {
             let iconName;
@@ -74,13 +67,11 @@ function MyDrawer() {
               (iconName = focused
                 ? 'person-circle-sharp'
                 : 'person-circle-outline'),
-                (size = focused ? size +15 : size + 5);
+                (size = focused ? size + 15 : size + 5);
             }
             return <Icon name={iconName} size={size} color={color} />;
           },
-        })}
-       >
-             
+        })}>
         <bottomTab.Screen
           name="Home"
           options={{headerShown: false}}
@@ -98,13 +89,16 @@ function MyDrawer() {
         />
         <bottomTab.Screen
           name="YourBlogs"
-        options={{headerStyle:{backgroundColor:"#2E2F41"},headerTintColor:"white"}}
+          options={{
+            headerStyle: {backgroundColor: '#2E2F41'},
+            headerTintColor: 'white',
+          }}
           component={UserBlogs}
         />
         <bottomTab.Screen
           name="Profile"
           options={{
-           headerShown:false
+            headerShown: false,
           }}
           component={MyDrawer}
         />
@@ -112,96 +106,81 @@ function MyDrawer() {
     );
   }
 
+  // authentication
 
+  const onAuthStateChanged = user => {
+    if (user) {
+      setLoggedin(true);
+    } else {
+      setLoggedin(false);
+    }
+    if (loading) {
+      setLoading(false);
+    }
+  };
 
-// authentication
- 
-    
- const onAuthStateChanged = (user)=>{
- if(user){
-   setLoggedin(true)
- }else{
-   setLoggedin(false)
- } 
- if(loading){setLoading(false)}
- }
- 
-  if(loading){
-   return(
-     <ActivityIndicator color='black' size={40} />
-   )
+  if (loading) {
+    return <ActivityIndicator color="black" size={40} />;
   }
   useEffect(() => {
-    const subscribe = auth().onAuthStateChanged(onAuthStateChanged)
-    return subscribe
-  }, [])
-  
-  if(!loggedin){
-   return(
-     <NavigationContainer>
-       <Stack.Navigator initialRouteName='Splash'>
-       <Stack.Screen
-          options={{headerShown: false}}
-          name="Splash"
-          component={Splash}
-        />
-        <Stack.Screen
-          options={{
-            headerStyle: {
-              backgroundColor: 'black',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-          name="Login"
-          component={Login}
-        />
-        <Stack.Screen
-          name="Signup"
-          options={{
-            headerStyle: {
-              backgroundColor: 'black',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-          component={Signup}
-        />
-       </Stack.Navigator>
-     </NavigationContainer>
-   )
+    const subscribe = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscribe;
+  }, []);
+
+  if (!loggedin) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Splash">
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="Splash"
+            component={Splash}
+          />
+          <Stack.Screen
+            options={{
+              headerStyle: {
+                backgroundColor: 'black',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
+            name="Login"
+            component={Login}
+          />
+          <Stack.Screen
+            name="Signup"
+            options={{
+              headerStyle: {
+                backgroundColor: 'black',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
+            component={Signup}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
   }
 
+  // stack navigation
 
-// stack navigation
-
-  
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-      
         <Stack.Screen
           name="Home"
           options={{
-          headerShown:false,
-
+            headerShown: false,
           }}
           component={BottomTabs}
         />
-        <Stack.Screen
-          name="Details"
-         
-          component={Details}
-        />
-           <Stack.Screen
-          name="CategoryDetails"
-         
-          component={CategoryDetails}
-        />
+        <Stack.Screen name="Details" component={Details} />
+        <Stack.Screen name="CategoryDetails" component={CategoryDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );
