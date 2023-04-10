@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import AppNavigator from './src/component/Navigation/AppNavigator';
+import AppNavigator from './src/Navigation/AppNavigator';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const App = () => {
