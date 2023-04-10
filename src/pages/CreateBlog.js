@@ -2,7 +2,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   TouchableOpacity,
   LogBox,
   ScrollView,
@@ -15,7 +14,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
+import {horizontalScale, verticalScale} from '../constants/constants';
 
 let oldCoverImageURL;
 
@@ -30,23 +29,23 @@ const CreateBlog = ({navigation, route}) => {
   const uid = auth().currentUser.uid;
   LogBox.ignoreLogs(['ReactImageView: Image source']);
 
-
   const onUploadImage = async () => {
     try {
       const result = await launchImageLibrary({
         mediaType: 'photo',
       });
-  
+
       if (!result.cancelled) {
         setCoverImg(result.assets[0].uri);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      return;
       // Handle error here
     }
   };
-  
-  const getBlogData = async (id) => {
+
+  const getBlogData = async id => {
     try {
       const snapshot = await firestore()
         .collection(userBlogs)
@@ -54,7 +53,7 @@ const CreateBlog = ({navigation, route}) => {
         .collection('blogs')
         .doc()
         .get();
-  
+
       const data = snapshot.data();
       setTitle(data.title);
       setContent(data.content);
@@ -66,7 +65,7 @@ const CreateBlog = ({navigation, route}) => {
       // Handle error here
     }
   };
-  
+
   useEffect(() => {
     if (id) {
       getBlogData(id);
@@ -80,11 +79,13 @@ const CreateBlog = ({navigation, route}) => {
     const data = await reference.putFile(coverImg);
     return await storage().ref(data.metadata.fullPath).getDownloadURL();
   }
-  
+
+  // create Blog
   const onCreate = async () => {
     if (!title && !content) {
       return false;
     }
+
     navigation.navigate('Home');
 
     try {
@@ -97,7 +98,6 @@ const CreateBlog = ({navigation, route}) => {
         coverImage: downloadURL,
         createdAt: firestore.FieldValue.serverTimestamp(),
       });
-    
     } catch (error) {
       console.log(error);
     }
@@ -135,11 +135,11 @@ const CreateBlog = ({navigation, route}) => {
           placeholder="Category"
           onChangeText={text => setCategory(text)}
         />
-        
       </View>
 
       <View>
         <View style={{margin: 20}}>
+          {/* image Upload */}
           <TouchableOpacity style={styles.touchabelBtn} onPress={onUploadImage}>
             <Text style={styles.btnText}>Upload Cover Image</Text>
           </TouchableOpacity>
@@ -147,10 +147,13 @@ const CreateBlog = ({navigation, route}) => {
             style={styles.image}
             source={{uri: coverImg}}
             resizeMode="cover"
-            onError={(error)=>{console.log(error)}}
+            onError={error => {
+              console.log(error);
+            }}
           />
         </View>
       </View>
+      {/* upload blog */}
       <FontAwesome
         name="check-circle"
         color="white"
@@ -198,15 +201,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     elevation: 5,
 
-    width: 200,
+    width: horizontalScale(200),
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
   },
 
   image: {
-    width: 350,
-    height: 350,
+    width: verticalScale(350),
+    height: horizontalScale(350),
     alignSelf: 'center',
     marginTop: 25,
   },

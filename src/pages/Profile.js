@@ -10,9 +10,9 @@ import {
 import React, {useState, useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import {horizontalScale, verticalScale} from '../constants/constants';
 
 const Profile = ({navigation, route}) => {
-  
   const id = route.params?.id;
   const [blogs, setBlogs] = useState([]);
 
@@ -69,14 +69,15 @@ const Profile = ({navigation, route}) => {
   return (
     <ScrollView style={{backgroundColor: '#2E2F41'}}>
       <View style={styles.container}>
+      {/* Logged In User Details */}
         <Image source={{uri: user.photoURL}} style={styles.userImage} />
         <Text style={styles.userName}>{user.displayName}</Text>
 
         <Text style={styles.userEmail}>{user.email}</Text>
 
+          {/* logged in users Post */}
         <View style={{height: '85%'}}>
-          <View
-            style={styles.mediaContainer}>
+          <View style={styles.mediaContainer}>
             <TouchableOpacity style={styles.postContainer}>
               <Text style={styles.postText}>Posts</Text>
             </TouchableOpacity>
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   userName: {
     color: 'white',
@@ -190,14 +191,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   userImage: {
-    width: 100,
-    height: 100,
+    width: horizontalScale(100),
+    height: verticalScale(100),
     margin: 50,
     marginBottom: 15,
     borderWidth: 3,
     borderColor: 'white',
     borderRadius: 100,
-    marginTop:150
+    marginTop: 150,
   },
   postContainer: {
     backgroundColor: '#3D88F3',
@@ -213,7 +214,7 @@ const styles = StyleSheet.create({
   postText: {
     color: 'white',
     fontSize: 14,
-    fontWeight: '700'
+    fontWeight: '700',
   },
   VideoContainer: {
     backgroundColor: '#2E2F41',
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.8,
     padding: 15,
     width: '65%',
-    height: 48,
+    height: verticalScale(40),
   },
   videoText: {
     position: 'absolute',
@@ -231,5 +232,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     top: 10,
   },
-  mediaContainer:{alignSelf: 'center', marginTop: 40, flexDirection: 'row'}
+  mediaContainer: {alignSelf: 'center', marginTop: 40, flexDirection: 'row'},
 });

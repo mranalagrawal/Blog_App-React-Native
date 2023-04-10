@@ -21,7 +21,8 @@ const Category = ({navigation}) => {
       <Text Style={styles.hr}></Text>
 
       <View style={styles.container}>
-
+      
+{/* get Blog CategoriesDetails */}
         <FlatList
           data={DATA}
           keyExtractor={item => item.id}

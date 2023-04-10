@@ -1,5 +1,6 @@
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React from 'react';
+import { verticalScale } from '../constants/constants';
 
 const Details = ({route}) => {
   const {blog} = route.params;
@@ -22,7 +23,7 @@ const Details = ({route}) => {
           </Text>
         </View>
 
-        {/* Blog ContentDetail */}
+        {/* Blog ContentDetails */}
 
         <View style={styles.ContentIconContainer}>
           <Text style={styles.ContentIcon}>
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '90%',
-    height: 450,
+    height: verticalScale(400),
     marginTop: 35,
     marginHorizontal: 15,
     alignSelf: 'center',

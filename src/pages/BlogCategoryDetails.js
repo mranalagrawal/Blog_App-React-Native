@@ -8,14 +8,14 @@ import {
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import firestore from '@react-native-firebase/firestore';
-
+import { horizontalScale, verticalScale } from '../constants/constants';
 
     const CategoryDetails = ({route, navigation}) => {
 
     const [blogs, setBlogs] = useState([]);
-
     var category = route.params.item;
 
+// get All blog
     const getBlogData = () => {
       firestore()
         .collectionGroup('blogs')
@@ -56,7 +56,7 @@ import firestore from '@react-native-firebase/firestore';
         });
       }
     });
-    
+    // selected blogs categoriesWise
     const handleBlogPress = (blogId) => {
       const selectedBlog = blogs.find(blog => blog.id === blogId);
       navigation.navigate('Details', { blog: selectedBlog });
@@ -64,6 +64,9 @@ import firestore from '@react-native-firebase/firestore';
   
   return (
     <View style={{ flex: 1 }}>
+
+    {/* filtereBlogs categories wise */}
+    
       {filteredData.length > 0 ? (
         <FlatList
           data={filteredData}
@@ -120,7 +123,7 @@ const styles = StyleSheet.create({
   },
   blog: {
     width: '75%',
-    height: 360,
+   paddingBottom:15,
     backgroundColor: 'white',
     marginTop: 25,
     marginHorizontal: 10,
@@ -128,8 +131,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   image: {
-    width: 300,
-    height: 250,
+    width: horizontalScale(250),
+    height: verticalScale(250),
     alignSelf: 'center',
     marginTop: 15,
     borderRadius: 10,

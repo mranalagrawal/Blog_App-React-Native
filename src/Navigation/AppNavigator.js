@@ -6,107 +6,20 @@ import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import Splash from '../pages/Splash';
 import Home from '../pages/Home';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import CreateBlog from '../pages/CreateBlog';
-import Icon from 'react-native-vector-icons/Ionicons';
-import Category from '../pages/BlogCategory';
-import UserBlogs from '../pages/UserBlogs';
-import Profile from '../pages/Profile';
 import auth from '@react-native-firebase/auth';
 import Details from '../pages/BlogDetails';
 import CategoryDetails from '../pages/BlogCategoryDetails';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import CustomDrawer from './CustomDrawer';
+
+import BottomTabs from './BottomTabs';
 
 const AppNavigator = () => {
 
   // navigation
   const Stack = createStackNavigator();
-  const bottomTab = createBottomTabNavigator();
-  const Drawer = createDrawerNavigator();
 
   const [loggedin, setLoggedin] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  // Drawer Navigation
-
-  function MyDrawer() {
-    return (
-      <Drawer.Navigator drawerContent={props => <CustomDrawer {...props} />}>
-        <Drawer.Screen name="Profile" component={Profile} />
-      </Drawer.Navigator>
-    );
-  }
-
-  // Tab Navigation
-  function BottomTabs() {
-    return (
-      <bottomTab.Navigator
-        screenOptions={({route}) => ({
-          tabBarActiveTintColor: 'white',
-          tabBarInactiveTintColor: 'white',
-          tabBarShowLabel: false,
-          tabBarStyle: {
-            backgroundColor: '#2E2F41',
-            height: 70,
-          },
-          tabBarIcon: ({focused, size, color}) => {
-            let iconName;
-            if (route.name === 'Home') {
-              (iconName = focused ? 'ios-home' : 'ios-home-outline'),
-                (size = focused ? size + 15 : size + 5);
-            } else if (route.name === 'Category') {
-              (iconName = focused ? 'list' : 'list-outline'),
-                (size = focused ? size + 15 : size + 5);
-            } else if (route.name === 'CreateBlog') {
-              (iconName = focused ? 'ios-create' : 'ios-create-outline'),
-                (size = focused ? size + 15 : size + 5);
-            } else if (route.name === 'YourBlogs') {
-              (iconName = focused ? 'bookmark' : 'bookmark-outline'),
-                (size = focused ? size + 15 : size + 5);
-            } else if (route.name === 'Profile') {
-              (iconName = focused
-                ? 'person-circle-sharp'
-                : 'person-circle-outline'),
-                (size = focused ? size + 15 : size + 5);
-            }
-            return <Icon name={iconName} size={size} color={color} />;
-          },
-        })}>
-        <bottomTab.Screen
-          name="Home"
-          options={{headerShown: false}}
-          component={Home}
-        />
-        <bottomTab.Screen
-          name="Category"
-          options={{headerShown: false}}
-          component={Category}
-        />
-        <bottomTab.Screen
-          name="CreateBlog"
-          options={{headerShown: false}}
-          component={CreateBlog}
-        />
-        <bottomTab.Screen
-          name="YourBlogs"
-          options={{
-            headerStyle: {backgroundColor: '#2E2F41'},
-            headerTintColor: 'white',
-          }}
-          component={UserBlogs}
-        />
-        <bottomTab.Screen
-          name="Profile"
-          options={{
-            headerShown: false,
-          }}
-          component={MyDrawer}
-        />
-      </bottomTab.Navigator>
-    );
-  }
-
+  
   // authentication
 
   const onAuthStateChanged = user => {

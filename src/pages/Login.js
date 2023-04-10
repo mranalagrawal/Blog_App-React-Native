@@ -5,6 +5,7 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  Alert
 } from 'react-native';
 import React, {useState,useEffect} from 'react';
 import {GoogleSocialButton} from 'react-native-social-buttons';
@@ -41,10 +42,19 @@ const Login = ({navigation}) => {
 
 // login with firebase
 
-  const onLogin = () => {
-    auth().signInWithEmailAndPassword(email, password);
-  
-  };
+const onLogin = () => {
+  auth().signInWithEmailAndPassword(email, password)
+    .then(() => {
+      // Login successful
+    })
+    .catch((error) => {
+      if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+        Alert.alert('Wrong Credentials');
+      } else {
+        // Handle other errors
+      }
+    });
+};
  
 
   return (
@@ -52,10 +62,13 @@ const Login = ({navigation}) => {
       <Text style={styles.txt}>
         Logged In with one of the following Options
       </Text>
+
+      {/* google sign in */}
       <TouchableOpacity onPress={()=>signInWithGoole()} style={[styles.btnInput,{flexDirection:"row", justifyContent:"space-between", alignItems:"center"}]}>
       <Image source={require('../../assets/images/google.png')} style={styles.googleImage}/>
        <Text style={styles.googleBtnText}>Signin  with Google</Text>
       </TouchableOpacity>
+      
       <TextInput
         value={email}
 
@@ -73,7 +86,8 @@ const Login = ({navigation}) => {
 
       />
 
-      <Text style={styles.txtForgot}>Forget Password?</Text>
+      <Text style={styles.txtForgot}>Forget Password?</Text>\
+      {/* login */}
 
       <TouchableOpacity style={styles.btnInput} onPress={() => onLogin()}>
         <Text style={styles.btnTxt}>Log In</Text>

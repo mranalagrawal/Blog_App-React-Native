@@ -14,6 +14,7 @@ import auth from '@react-native-firebase/auth';
 import firestore, { firebase } from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { horizontalScale, verticalScale } from '../constants/constants';
 
 const Signup = ({navigation}) => {
   const [email, setEmail] = useState();
@@ -199,8 +200,8 @@ const styles = StyleSheet.create({
     width: '50%',
   },
   displayPicture: {
-    width: 50,
-    height: 50,
+    width: horizontalScale(50),
+    height: verticalScale(50),
     borderRadius: 25,
     backgroundColor: 'gray',
     marginTop: 80,
@@ -244,8 +245,8 @@ const styles = StyleSheet.create({
     opacity:0.5
   },
   googleImage: {
-  width:20,
-  height:20
+  width:horizontalScale(20),
+  height:verticalScale(20)
   },
   btnSignup: {
     fontSize: 15,
