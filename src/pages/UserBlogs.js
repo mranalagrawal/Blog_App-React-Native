@@ -83,7 +83,7 @@ export default UserBlogs;
 
 const styles = StyleSheet.create({
   image: {
-    width: horizontalScale(300),
+    width: horizontalScale(250),
     height: verticalScale (250),
     alignSelf: 'center',
     marginTop: 15,
