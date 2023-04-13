@@ -159,10 +159,11 @@ const Signup = ({navigation}) => {
       <TouchableOpacity
         style={styles.btnInput}
         onPress={() => {
-          if (displayName !== '' && email !== '' && password !== '') {
-            onRegister();
-          } else {
+          console.log(displayName,email,password)
+          if (!displayName || !email || !password) {
             Alert.alert('Please Fill all The Required Fileds');
+          } else {
+            onRegister();
           }
         }}>
 

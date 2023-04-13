@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    height: verticalScale(50),
+    // height: verticalScale(50),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   searchBar: {
     borderRadius: 5,
     width: '70%',
-    height: verticalScale(40),
+    paddingVertical: verticalScale(0),
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',

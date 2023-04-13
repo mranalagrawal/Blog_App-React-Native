@@ -86,10 +86,17 @@ const onLogin = () => {
 
       />
 
-      <Text style={styles.txtForgot}>Forget Password?</Text>\
+      <Text style={styles.txtForgot}>Forget Password?</Text>
       {/* login */}
 
-      <TouchableOpacity style={styles.btnInput} onPress={() => onLogin()}>
+      <TouchableOpacity style={styles.btnInput}  onPress={() => {
+         
+          if (!email || !password) {
+            Alert.alert('Please Fill all The Required Fileds');
+          } else {
+            onLogin();
+          }
+        }}>
         <Text style={styles.btnTxt}>Log In</Text>
       </TouchableOpacity>
       
